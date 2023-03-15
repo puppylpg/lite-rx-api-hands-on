@@ -63,14 +63,14 @@ public class ReactiveUserRepository implements ReactiveRepository<User> {
 
 
 	private Mono<User> withDelay(Mono<User> userMono) {
-		return Mono
-				.delay(Duration.ofMillis(delayInMs))
+		// delay是精髓
+		return Mono.delay(Duration.ofMillis(delayInMs))
 				.flatMap(c -> userMono);
 	}
 
 	private Flux<User> withDelay(Flux<User> userFlux) {
-		return Flux
-				.interval(Duration.ofMillis(delayInMs))
+		// flux是interval
+		return Flux.interval(Duration.ofMillis(delayInMs))
 				.zipWith(userFlux, (i, user) -> user);
 	}
 

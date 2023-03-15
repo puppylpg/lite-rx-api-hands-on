@@ -83,6 +83,7 @@ public class Part08OtherOperationsTest {
 		PublisherProbe<User> probe = PublisherProbe.of(repository.findAll());
 		Mono<Void> completion = workshop.fluxCompletion(probe.flux());
 		StepVerifier.create(completion)
+				// 只剩complete信号了
 				.verifyComplete();
 		probe.assertWasRequested();
 	}

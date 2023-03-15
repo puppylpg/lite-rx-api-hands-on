@@ -34,6 +34,7 @@ public class Part06RequestTest {
 
 	@AfterEach
 	public void afterEach() {
+		// 把截货的输出信息重新输出一遍到stdout，然后让stdout归位
 		if (logConsole != null) {
 			originalConsole.println(logConsole.toString());
 			System.setOut(originalConsole);
@@ -64,6 +65,7 @@ public class Part06RequestTest {
 	@Test
 	public void experimentWithLog() {
 		logConsole = new ByteArrayOutputStream();
+		// 666，用byte array替换stdout，相当于捕获了stdout的输出
 		System.setOut(new PrintStream(logConsole));
 
 		Flux<User> flux = workshop.fluxWithLog();

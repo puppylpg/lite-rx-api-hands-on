@@ -27,6 +27,7 @@ public class Part05MergeTest {
 
 	@Test
 	public void mergeWithInterleave() {
+		// 因为delay，所以实际上没有产生交错。哦，所以意思是，“混起来”，交织在一起的意思，并不是一替一个
 		Flux<User> flux = workshop.mergeFluxWithInterleave(repositoryWithDelay.findAll(), repository.findAll());
 		StepVerifier.create(flux)
 				.expectNext(MARIE, MIKE, User.SKYLER, User.JESSE, User.WALTER, User.SAUL)
@@ -37,6 +38,7 @@ public class Part05MergeTest {
 
 	@Test
 	public void mergeWithNoInterleave() {
+		// concat会等前一个flux结束再concat后一个
 		Flux<User> flux = workshop.mergeFluxWithNoInterleave(repositoryWithDelay.findAll(), repository.findAll());
 		StepVerifier.create(flux)
 				.expectNext(User.SKYLER, User.JESSE, User.WALTER, User.SAUL, MARIE, MIKE)
