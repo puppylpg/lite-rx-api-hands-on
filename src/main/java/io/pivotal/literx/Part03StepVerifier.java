@@ -22,6 +22,7 @@ import java.util.function.Supplier;
 import io.pivotal.literx.domain.User;
 import org.assertj.core.api.Assertions;
 import reactor.core.publisher.Flux;
+import reactor.core.publisher.Mono;
 import reactor.test.StepVerifier;
 
 /**
@@ -86,4 +87,19 @@ public class Part03StepVerifier {
 		throw new AssertionError("workshop not implemented");
 	}
 
+
+	public static void main(String... args) throws InterruptedException {
+		final Mono<String> mono = Mono.just("hello ")
+				.map(v -> v + "world ")
+				.log();
+
+		Thread t = new Thread(() -> mono
+				.map(msg -> msg + "! ")
+				.subscribe(v ->
+						System.out.println(Thread.currentThread().getName() + ": " + v)
+				)
+		);
+		t.start();
+		t.join();
+	}
 }

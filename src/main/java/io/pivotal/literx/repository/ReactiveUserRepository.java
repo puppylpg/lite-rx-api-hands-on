@@ -63,13 +63,13 @@ public class ReactiveUserRepository implements ReactiveRepository<User> {
 
 
 	private Mono<User> withDelay(Mono<User> userMono) {
-		// delay是精髓
+		// mono.delay只能产生一个值，0，这计数器不太能计数
 		return Mono.delay(Duration.ofMillis(delayInMs))
-				.flatMap(c -> userMono);
+				.flatMap(i -> userMono);
 	}
 
 	private Flux<User> withDelay(Flux<User> userFlux) {
-		// flux是interval
+		// flux.interval是在源源不断的产生自然数
 		return Flux.interval(Duration.ofMillis(delayInMs))
 				.zipWith(userFlux, (i, user) -> user);
 	}

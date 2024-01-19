@@ -22,6 +22,10 @@ public class Part01FluxTest {
 
 		StepVerifier.create(flux)
 				.verifyComplete();
+
+		StepVerifier.create(flux)
+				.expectComplete()
+				.verify();
 	}
 
 //========================================================================================

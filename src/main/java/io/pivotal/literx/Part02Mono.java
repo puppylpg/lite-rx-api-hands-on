@@ -2,6 +2,8 @@ package io.pivotal.literx;
 
 import reactor.core.publisher.Mono;
 
+import java.time.Duration;
+
 /**
  * Learn how to create Mono instances.
  *
@@ -36,6 +38,10 @@ public class Part02Mono {
 	// Create a Mono that emits an IllegalStateException
 	Mono<String> errorMono() {
 		return Mono.error(new IllegalStateException());
+	}
+
+	Mono<Long> counter() {
+		return Mono.delay(Duration.ofMillis(100));
 	}
 
 }

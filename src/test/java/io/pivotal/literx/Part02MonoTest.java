@@ -30,8 +30,7 @@ public class Part02MonoTest {
 	@Test
 	public void noSignal() {
 		Mono<String> mono = workshop.monoWithNoSignal();
-		StepVerifier
-				.create(mono)
+		StepVerifier.create(mono)
 				.expectSubscription()
 				.expectTimeout(Duration.ofSeconds(1))
 				.verify();
@@ -54,6 +53,14 @@ public class Part02MonoTest {
 		Mono<String> mono = workshop.errorMono();
 		StepVerifier.create(mono)
 				.verifyError(IllegalStateException.class);
+	}
+
+	@Test
+	public void countEach100ms() {
+		Mono<Long> mono = workshop.counter();
+		StepVerifier.create(mono)
+				.expectNext(0L)
+				.verifyComplete();
 	}
 
 }
