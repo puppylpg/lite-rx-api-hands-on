@@ -1,7 +1,5 @@
 package io.pivotal.literx;
 
-import java.util.Iterator;
-
 import io.pivotal.literx.domain.User;
 import io.pivotal.literx.repository.ReactiveRepository;
 import io.pivotal.literx.repository.ReactiveUserRepository;
@@ -9,7 +7,10 @@ import org.junit.jupiter.api.Test;
 import reactor.core.publisher.Flux;
 import reactor.core.publisher.Mono;
 
-import static org.assertj.core.api.Assertions.assertThat;
+import java.util.Iterator;
+
+import static org.assertj.core.api.Assertions.*;
+import static org.junit.jupiter.api.Assertions.*;
 
 /**
  * Learn how to turn Reactive API to blocking one.
@@ -28,6 +29,23 @@ public class Part10ReactiveToBlockingTest {
 		Mono<User> mono = repository.findFirst();
 		User user = workshop.monoToValue(mono);
 		assertThat(user).isEqualTo(User.SKYLER);
+	}
+
+	@Test
+	public void monoLongTime() {
+		repository = new ReactiveUserRepository(5000);
+		Mono<User> mono = repository.findFirst();
+		User user = workshop.monoToValue(mono);
+		assertThat(user).isEqualTo(User.SKYLER);
+	}
+
+	@Test
+	public void monoException() {
+		Mono<User> mono = Mono.error(new Exception("message"));
+		RuntimeException thrown = assertThrows(RuntimeException.class,
+				() -> workshop.monoToValue(mono));
+
+		assertThat(thrown.getCause().getMessage()).isEqualTo("message");
 	}
 
 //========================================================================================
