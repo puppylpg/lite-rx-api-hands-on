@@ -68,9 +68,11 @@ public class Part08OtherOperationsTest {
 				.verifyComplete();
 
 		repository = new ReactiveUserRepository(250, MARIE, MIKE);
+		// 这个更快
 		repositoryWithDelay = new ReactiveUserRepository();
 		flux = workshop.useFastestFlux(repository.findAll(), repositoryWithDelay.findAll());
 		StepVerifier.create(flux)
+				// flux只要快一个，就一直是这个flux
 				.expectNext(User.SKYLER, User.JESSE, User.WALTER, User.SAUL)
 				.verifyComplete();
 	}
@@ -85,6 +87,8 @@ public class Part08OtherOperationsTest {
 		StepVerifier.create(completion)
 				// 只剩complete信号了
 				.verifyComplete();
+
+		// 确实被调用了，以证明确实没返回值，只返回complete
 		probe.assertWasRequested();
 	}
 

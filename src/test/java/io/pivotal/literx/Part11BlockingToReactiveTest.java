@@ -38,12 +38,19 @@ public class Part11BlockingToReactiveTest {
 	public void slowPublisherFastSubscriber() {
 		BlockingUserRepository repository = new BlockingUserRepository();
 		Flux<User> flux = workshop.blockingRepositoryToFlux(repository);
+
+		// 虽然调用了findAll方法，但是实际上它没被调用，因为它被包装成了一个flux，目前还没有subscribe
 		assertThat(repository.getCallCount())
 				.withFailMessage("The call to findAll must be deferred until the flux is subscribed")
 				.isEqualTo(0);
+
+		// 有人subscribe了
 		StepVerifier.create(flux)
 				.expectNext(User.SKYLER, User.JESSE, User.WALTER, User.SAUL)
 				.verifyComplete();
+
+		// findAll这次是真的被调用了
+		assertThat(repository.getCallCount()).isEqualTo(1);
 	}
 
 //========================================================================================
@@ -53,9 +60,15 @@ public class Part11BlockingToReactiveTest {
 		ReactiveRepository<User> reactiveRepository = new ReactiveUserRepository();
 		BlockingUserRepository blockingRepository = new BlockingUserRepository(new User[]{});
 		Mono<Void> complete = workshop.fluxToBlockingRepository(reactiveRepository.findAll(), blockingRepository);
+
+		// 并没有save
 		assertThat(blockingRepository.getCallCount()).isEqualTo(0);
+		// 有人subscribe了
 		StepVerifier.create(complete)
 				.verifyComplete();
+		// 确实save了
+		assertThat(blockingRepository.getCallCount()).isEqualTo(4);
+
 		Iterator<User> it = blockingRepository.findAll().iterator();
 		assertThat(it.next()).isEqualTo(User.SKYLER);
 		assertThat(it.next()).isEqualTo(User.JESSE);

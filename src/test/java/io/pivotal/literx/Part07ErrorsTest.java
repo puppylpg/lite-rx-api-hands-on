@@ -67,9 +67,10 @@ public class Part07ErrorsTest {
 
 	@Test
 	public void handleCheckedExceptions() {
-		Flux<User> flux = workshop.capitalizeMany(Flux.just(User.SAUL, User.JESSE));
+		Flux<User> flux = workshop.capitalizeMany(Flux.just(User.JESSE, User.SAUL, User.SKYLER));
 
 		StepVerifier.create(flux)
+				.expectNext(User.JESSE)
 				.verifyError(Part07Errors.GetOutOfHereException.class);
 	}
 

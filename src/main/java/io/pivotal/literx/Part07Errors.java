@@ -53,10 +53,12 @@ public class Part07Errors {
 					try {
 						return this.capitalizeUser(u);
 					} catch (GetOutOfHereException e) {
+						// Prepare an unchecked RuntimeException that should be propagated downstream through Subscriber.onError(Throwable).
+						// 把一个checked exception转成runtime exception，然后传递到client
 						throw Exceptions.propagate(e);
 					}
 				}
-        );
+        ).log();
 	}
 
 	User capitalizeUser(User user) throws GetOutOfHereException {
@@ -66,8 +68,8 @@ public class Part07Errors {
 		return new User(user.getUsername(), user.getFirstname(), user.getLastname());
 	}
 
-		protected final class GetOutOfHereException extends Exception {
-			private static final long serialVersionUID = 0L;
-		}
+	protected static final class GetOutOfHereException extends Exception {
+		private static final long serialVersionUID = 0L;
+	}
 
 }

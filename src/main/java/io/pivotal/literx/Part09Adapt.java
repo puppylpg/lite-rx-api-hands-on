@@ -29,11 +29,11 @@ import reactor.core.publisher.Mono;
 
 /**
  * Learn how to adapt from/to RxJava 3 Observable/Single/Flowable and Java 8+ CompletableFuture.
- *
+ * <p>
  * Mono and Flux already implements Reactive Streams interfaces so they are natively
  * Reactive Streams compliant + there are {@link Mono#from(Publisher)} and {@link Flux#from(Publisher)}
  * factory methods.
- *
+ * <p>
  * For RxJava 3, you should not use Reactor Adapter but only RxJava 3 and Reactor Core.
  *
  * @author Sebastien Deleuze

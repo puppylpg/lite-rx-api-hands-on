@@ -45,6 +45,7 @@ public class Part10ReactiveToBlockingTest {
 		RuntimeException thrown = assertThrows(RuntimeException.class,
 				() -> workshop.monoToValue(mono));
 
+		// 抛出来的是propagate后的runtime异常，里面的cause才是原来的异常
 		assertThat(thrown.getCause().getMessage()).isEqualTo("message");
 	}
 

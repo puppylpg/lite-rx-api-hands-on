@@ -32,6 +32,9 @@ public class ReactiveUserRepository implements ReactiveRepository<User> {
 		this(DEFAULT_DELAY_IN_MS, users);
 	}
 
+	/**
+	 * 之所以使用delay，是为了好判断。比如某些流混合操作，一定是delay小的先出
+	 */
 	public ReactiveUserRepository(long delayInMs, User... users) {
 		this.delayInMs = delayInMs;
 		this.users = new ArrayList<>(Arrays.asList(users));

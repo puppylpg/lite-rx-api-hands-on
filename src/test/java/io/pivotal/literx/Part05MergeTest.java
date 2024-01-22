@@ -27,7 +27,8 @@ public class Part05MergeTest {
 
 	@Test
 	public void mergeWithInterleave() {
-		// 因为delay，所以实际上没有产生交错。哦，所以意思是，“混起来”，交织在一起的意思，并不是一替一个
+		// interleave，这里的意思是“混起来”、交织在一起的意思，并不是一替一个
+		// 之所以使用delay，是为了好判断。delay小的先出，所以最终的实际效果并没有产生交错
 		Flux<User> flux = workshop.mergeFluxWithInterleave(repositoryWithDelay.findAll(), repository.findAll());
 		StepVerifier.create(flux)
 				.expectNext(MARIE, MIKE, User.SKYLER, User.JESSE, User.WALTER, User.SAUL)

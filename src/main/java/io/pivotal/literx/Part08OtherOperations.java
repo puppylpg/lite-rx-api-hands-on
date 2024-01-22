@@ -46,7 +46,7 @@ public class Part08OtherOperations {
 
 //========================================================================================
 
-	// Return a valid Mono of user for null input and non null input user (hint: Reactive Streams do not accept null values)
+	// Return a valid Mono of user for null input and nonnull input user (hint: Reactive Streams do not accept null values)
 	Mono<User> nullAwareUserToMono(User user) {
 		return Mono.justOrEmpty(user);
 	}
